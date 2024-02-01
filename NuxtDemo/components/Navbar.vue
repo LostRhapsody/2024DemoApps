@@ -1,5 +1,5 @@
 <script setup>
-
+  
   const route = useRoute()
 
   const links =[{
@@ -9,18 +9,24 @@
 
   const programs =[{
     id:'oi',
-    label: 'Order Inquiry'
+    label: 'OrderInquiry'
   },{
     id:'oe',
-    label: 'Order Entry'
+    label: 'OrderEntry'
   }]
 
   const selected = ref("Search")
 
+  var programHTML = ref(`<h1>No program</h1>`)
+
   async function getProgram(program){
-    // console.log(program.id)
-    // alert(program.id)
-    const getProgram = await $fetch('/api/program/' + program.label)
+    program = await $fetch('/api/program/' + program.label)  
+    console.log(program)
+    setProgramHtml(program)
+  }
+
+  function setProgramHtml(html) {
+    programHTML = html
   }
 
 </script>
@@ -29,16 +35,15 @@
   <!-- the application, honestly -->
   <div class="container flex flex-row border-b border-gray-200 dark:border-gray-800 items-end mx-auto">
     <!-- the actual navbar -->
-    <UHorizontalNavigation :links="links" class="basis-1/2"/>
-    <UVerticalNavigation />
-    <UInputMenu v-model="selected" :options="programs" class="basis-1/4" v-on:update:model-value="getProgram(selected)">
-      <template #leading>
-        
-      </template>
-    </UInputMenu>
-    <!-- This is where programs go? -->
-    <div class="container" v-html="programHTML">
-
-    </div>
+      <UHorizontalNavigation :links="links" class="basis-1/2 mb-4"/>
+      <!-- <UVerticalNavigation /> -->
+      <UInputMenu v-model="selected" :options="programs" class="basis-1/4 mb-4" v-on:update:model-value="getProgram(selected)">
+        <template #leading>
+          
+        </template>
+      </UInputMenu>    
+  </div>
+  <!-- This is where programs go? -->
+  <div class="container" v-html="programHTML">
   </div>
 </template>
