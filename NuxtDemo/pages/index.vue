@@ -1,5 +1,5 @@
 <template>
   <div>
-    <h1>Use the search bar to launch a program</h1>
+    <h1>Nuxt Demo Project</h1>
   </div>
 </template>
